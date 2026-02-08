@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { addCategory, deleteCategoryById, getAllCategories, getCategoryById, getCategoryByTitle, updateCategoryById } from "../models/category.model";
 
 export const addNewCategory = (req: Request, res: Response, next: NextFunction) => {
-    const {title, detail, image, status} = req.body;
+    const {title, detail, image} = req.body;
     
     try {
         getCategoryByTitle(title as string, (err, result) => {

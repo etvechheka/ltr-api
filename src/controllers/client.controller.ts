@@ -12,7 +12,7 @@ import { generateToken } from "../utils/jwtToken";
 
 export const createClient = async (req: Request, res: Response, next: NextFunction) => {
     const {
-        firstname, lastname, email, password, image, status
+        firstname, lastname, email, password
     }: Client = req.body;
 
     try {

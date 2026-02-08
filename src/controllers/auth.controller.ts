@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { LoginUser, User } from "../schema/userValid.schema";
 import { getUserByUsername, createUser } from "../models/auth.model";
 import uuid from 'uuid';
-import bcrypt from 'bcrypt'
 import { comparedPassword, encryptPassword } from "../utils/encrypt";
 import { generateToken } from "../utils/jwtToken";
 

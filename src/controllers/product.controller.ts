@@ -175,7 +175,7 @@ export const getFeatureProduct = (req: Request, res: Response, next: NextFunctio
 
 export const getCategoryProduct = async(req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
-    console.log(id)
+
     try {
         getProductByCategory(id as string, (err, result) => {
             if(err) throw err;
@@ -289,6 +289,6 @@ export const deleteProduct = (req: Request, res: Response, next: NextFunction) =
             }
         })
     } catch (error) {
-
+        next(error)
     }
 }

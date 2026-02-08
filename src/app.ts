@@ -23,11 +23,11 @@ const corsOptions = {
 }
 
 // Rate Limiting
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 mins
-//   max: 100, // limit each IP
-//   message: 'Too many requests, please try again later.'
-// });
+const limiter = rateLimit({
+  windowMs: 30 * 60 * 1000, // 15 mins
+  max: 100, // limit each IP
+  message: 'Too many requests, please try again later.'
+});
 
 app.use(cors(corsOptions));
 app.use(helmet());

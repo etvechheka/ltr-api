@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import {
-    addMoreImage, addProduct, deleteMultipleImage, deleteProductById, getAllMultipleImage, getAllProducts, getMultipleImage, getProductByCategory, getProductByCode,
+    addMoreImage, addProduct, deleteImageByProductId, deleteMultipleImage, deleteProductById, getAllMultipleImage, getAllProducts, getMultipleImage, getProductByCategory, getProductByCode,
     getProductByFeature, getProductById, updateProductById
 } from "../models/product.model";
 
@@ -60,6 +60,7 @@ export const addProductImage = (req: Request, res: Response, next: NextFunction)
 
         addMoreImage(values, (err, result) => {
             if (err) throw err;
+           
             res.status(201).json({
                 status: true,
                 message: 'You added successfully'
@@ -96,13 +97,14 @@ export const getMultipleProductImage = (req: Request, res: Response, next: NextF
 export const getAllMultipleProductImage = (req: Request, res: Response, next: NextFunction) => {
     try {
         getAllMultipleImage((err, result) => {
-            if(result.length !== 0){
+            if (result.length !== 0) {
                 return res.status(200).json({
                     status: true,
                     message: "Data fetch successfully",
                     result: result
                 })
             }
+
             res.status(200).json({
                 status: true,
                 message: "Data not found",
@@ -115,10 +117,11 @@ export const getAllMultipleProductImage = (req: Request, res: Response, next: Ne
 }
 
 export const deleteMultipleProductImage = (req: Request, res: Response, next: NextFunction) => {
-    const {id} = req.params;
+    const { id } = req.params;
+
     try {
         deleteMultipleImage(id as string, (err, result) => {
-            if(err) throw err;
+            if (err) throw err;
             res.status(200).json({
                 status: true,
                 message: 'Data has been deleted'
@@ -173,13 +176,13 @@ export const getFeatureProduct = (req: Request, res: Response, next: NextFunctio
     }
 }
 
-export const getCategoryProduct = async(req: Request, res: Response, next: NextFunction) => {
-    const {id} = req.params;
+export const getCategoryProduct = async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
 
     try {
         getProductByCategory(id as string, (err, result) => {
-            if(err) throw err;
-            if(result.length == 0) {
+            if (err) throw err;
+            if (result.length == 0) {
                 return res.status(200).json({
                     status: true,
                     message: 'Data not found',
@@ -192,7 +195,7 @@ export const getCategoryProduct = async(req: Request, res: Response, next: NextF
                 result: result
             })
         })
-        
+
     } catch (error) {
         next(error)
     }
@@ -279,7 +282,16 @@ export const deleteProduct = (req: Request, res: Response, next: NextFunction) =
                     message: 'Product not found'
                 });
             } else {
-                deleteProductById(id as string, (err) => {
+                getMultipleImage(id as string, (err, result) => {
+                    if(err) throw err;
+                    if (result.length !== 0) {
+                        const imageId = result.map(item => item.id);
+                        deleteImageByProductId(imageId, (err, res) => {
+                            if (err) throw err
+                        })
+                    }
+                });
+                deleteProductById(id as string, (err, result) => {
                     if (err) throw err;
                     res.status(201).json({
                         status: true,

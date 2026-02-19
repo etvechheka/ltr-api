@@ -30,6 +30,7 @@ export const getAllMultipleImage = (callback: any) => {
         throw error
     }
 }
+
 export const getMultipleImage = (productID: string, callback: any) => {
     const sql = 'SELECT * FROM tbl_product_images WHERE product_id=?';
     try {
@@ -47,7 +48,14 @@ export const deleteMultipleImage = (id: string, callback: any) => {
         throw error
     }
 }
-
+export const deleteImageByProductId = (arrId: string, callback: any) => {
+    const sql = "DELETE FROM tbl_product_images WHERE id IN (?)";
+    try {
+        return db.query(sql, [arrId], callback);
+    } catch (error) {
+        
+    }
+}
 export const getProductByFeature = (feature: string, callback: any) => {
     const sql = 'SELECT * FROM tbl_product WHERE feature=?';
     try {

@@ -23,11 +23,11 @@ const corsOptions = {
 }
 
 // Rate Limiting
-const limiter = rateLimit({
-  windowMs: 30 * 60 * 1000, // 15 mins
-  max: 100, // limit each IP
-  message: 'Too many requests, please try again later.'
-});
+// const limiter = rateLimit({
+//   windowMs: 30 * 60 * 1000, // 15 mins
+//   max: 100, // limit each IP
+//   message: 'Too many requests, please try again later.'
+// });
 
 app.use(cors(corsOptions));
 app.use(helmet());
@@ -42,6 +42,13 @@ app.use('/api/v1/clients', clientRoute);
 app.use('/api/v1/products', productRoute);
 app.use('/api/v1/category', categoryRoute);
 app.use('/api/v1/orders', orderRoute);
+
+app.use((req, res, next) => {
+  res.status(404).json({
+    status: false,
+    message: 'This route not found'
+  })
+});
 
 export default app;
  

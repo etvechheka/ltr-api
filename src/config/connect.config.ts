@@ -1,15 +1,14 @@
 import mysql from 'mysql2';
 
 const connectionConfig = {
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'ltr_supply_db',
-    port: 8889
+    host: '175.100.42.58',
+    user: 'ltr-userdb',
+    password: 'I7p7?)3zF-vx',
+    database: 'ecommerce_db',
+    port: 3306
 };
 
 const directConnection = mysql.createConnection(connectionConfig);
-
 directConnection.connect(err => {
     if (err) {
         console.error('Error connecting: ' + err);

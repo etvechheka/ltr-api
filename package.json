@@ -4,7 +4,7 @@
     "clean": "rimraf ./dist/*",
     "start:prod": "set NODE_ENV=production yarn build",
     "prod": "pm2 start process.yml",
-    "dev": "tsnd --respawn src/server.ts",
+    "dev": "set NODE_ENV=development tsnd --respawn src/server.ts",
     "start": "set NODE_ENV=production && pm2 start dist/server.js",
     "stop": "pm2 delete api.haseyoo.com && yarn clean"
   },

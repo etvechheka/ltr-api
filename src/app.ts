@@ -15,7 +15,7 @@ const app:Application = express();
 
 // CORS Configuration
 const corsOptions = {
-    origin: ['*', 'http://localhost:5173', 'http://localhost:4173'],
+    origin: ['*', 'http://localhost:5173', 'http://localhost:4173', 'ltrcambodia.com'],
     credentials: true,
     methods: 'GET, POST, PUT, DELETE',
     optionsSuccessStatus: 200,

@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
-import rateLimit from 'express-rate-limit';
+// import rateLimit from 'express-rate-limit';
 import authRoute from './routes/index';
 import errorHandler from './middlewares/error-handler.middleware';
 import userRoute from './routes/user.router';
@@ -15,11 +15,11 @@ const app:Application = express();
 
 // CORS Configuration
 const corsOptions = {
-    origin: ['*', 'http://localhost:5173', 'http://localhost:5174'],
+    origin: ['*', 'http://localhost:5173', 'http://localhost:4173'],
     credentials: true,
     methods: 'GET, POST, PUT, DELETE',
     optionsSuccessStatus: 200,
-    allowHeaders: 'Content-Type, Authorization, Origin, X-Requested-Width, Accept'
+    allowHeaders: ['Content-Type, Authorization, Origin, X-Requested-Width, Accept']
 }
 
 // Rate Limiting

@@ -6,7 +6,7 @@ import { authorizeRoles } from '../middlewares/role-authenticate.mddleware';
 const router: Router = express.Router();
 router.post('/', createClient);
 router.post('/login', loginClient);
-router.get('/', authenticate,authorizeRoles(['admin']), getClients);
+router.get('/', authenticate, authorizeRoles(['admin']), getClients);
 router.get('/:id', authenticate, getClient);
 router.put('/:id', authenticate, updateClient);
 

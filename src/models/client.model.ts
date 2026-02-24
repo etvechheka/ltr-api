@@ -37,13 +37,12 @@ export const getClientById = (clientId: string, callback: any) => {
     }
 }
 
-export const updateClientById = (clientId: string, data: any, callback: any) => {
+export const updateClientById = (data: any, callback: any) => {
     const convertToArray = Object.values(data);
-    const newData = [...convertToArray, clientId]
     try {
-        const query = 'UPDATE tbl_client SET client_firstname=?, client_lastname=?, client_email=?, client_password=?, updated_at, status=? WHERE id=?';
-        return db.query(query, newData, callback);
+        const query = 'UPDATE tbl_client_user SET client_firstname=?, client_lastname=?, client_email=?, client_password=?, updated_at=?, status=?, client_address=?, client_phone=? WHERE id=?';
+        return db.query(query, convertToArray, callback);
     } catch (error) {
-        throw error
+        throw error;
     }
 }

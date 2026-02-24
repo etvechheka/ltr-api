@@ -20,8 +20,7 @@ const connectionConfig = {
     }
 };
 
-const dataConfig = process.env.NODE_ENV === 'production' ? connectionConfig.production : connectionConfig.development;
-
+const dataConfig = process.env.NODE_ENV == 'production' ? connectionConfig.production : connectionConfig.development;
 const directConnection = mysql.createConnection(dataConfig);
 directConnection.connect(err => {
     if (err) {

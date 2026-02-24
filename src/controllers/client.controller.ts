@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { updateUserById } from "../models/user.model";
-import { User } from "../schema/userValid.schema";
-import { getAllClients, getClientByEmail, getClientById, signUp } from "../models/client.model";
+import { getAllClients, getClientByEmail, getClientById, signUp, updateClientById } from "../models/client.model";
 import uuid from 'uuid';
 import { comparedPassword, encryptPassword } from "../utils/encrypt";
 import { Client, ClientLoggin } from "../schema/client.schema";
@@ -99,40 +97,43 @@ export const getClient = (req: Request, res: Response, next: NextFunction) => {
 export const updateClient = (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const {
-        full_name, email, username, password, role, date_of_birth, status
-    }: User = req.body;
+        firstname, lastname, email, password, status, address, phone
+    } = req.body;
 
     try {
-        getClientById(id as string, (err, result) => {
+        getClientById(id as string, async (err, result1) => {
             if (err) throw err;
-            if (result.length == 0) {
+            if (result1.length == 0) {
                 return res.status(404).json({
                     status: false,
                     message: 'Could not update this client'
                 })
             }
-
+            const passwordHash = password !== '' ? await encryptPassword(password) : result1[0].client_password;
             const newData = {
-                full_name: full_name,
-                username: username,
-                email: email,
-                date_of_birth: date_of_birth,
-                password_hash: password,
-                role: role,
-                status: status
+                client_firstname: firstname,
+                client_lastname: lastname,
+                client_email: email,
+                client_password: passwordHash,
+                updated_at: new Date(),
+                status: status,
+                client_address: address,
+                client_phone: phone,
+                id: result1[0].id
             }
-
-            updateUserById(id as string, newData, (err, result) => {
+            
+            updateClientById(newData, (err, result) => {
                 if (err) throw err;
+                
                 res.status(201).json({
                     status: true,
-                    message: 'User has been updated',
+                    message: 'Client has been updated',
                     result: newData
-                })
+                });
             });
-        })
+        });
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 
@@ -156,7 +157,6 @@ export const loginClient = async (req: Request, res: Response, next: NextFunctio
                         _token: accessToken
                     })
                 }
-
             } else {
                 res.status(405).json({
                     status: false,

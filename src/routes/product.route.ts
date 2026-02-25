@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { authenticate } from '../middlewares/authenticate.middleware';
-import { addNewProduct, addProductImage, deleteMultipleProductImage, deleteProduct, 
+import { addNewProduct, addProductImage, deleteMultipleProductImage, deleteProduct,
     getAllMultipleProductImage, getCategoryProduct, getFeatureProduct, getMultipleProductImage,
      getProduct, getProducts, updateProduct 
     } from '../controllers/product.controller';

@@ -6,7 +6,7 @@
     "prod": "pm2 start process.yml",
     "dev": "set NODE_ENV=development && tsnd --respawn src/server.ts",
     "start": "set NODE_ENV=production && pm2 start dist/server.js",
-    "stop": "pm2 delete api.haseyoo.com && yarn clean"
+    "stop": "pm2 kill && yarn clean"
   },
   "dependencies": {
     "@types/cors": "^2.8.19",

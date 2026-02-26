@@ -54,13 +54,13 @@ export const addProductImage = (req: Request, res: Response, next: NextFunction)
     try {
         // Convert base64 image to blob for mysql
         const imageObject = JSON.parse(product_image);
-        const replaceString = imageObject.map((item: any) => item.replace(/^data:image\/\w+;base64,/, ""));
-        const bufferImage = replaceString.map((item: any) => Buffer.from(item, 'base64'));
-        const values = bufferImage.map((file: any) => [product_id, file]);
-
+        const values = imageObject.map((img: any) => {
+           const base64Image = img.replace(/^data:image\/\w+;base64,/, "");
+           const bufferImage = Buffer.from(base64Image, "base64");
+           return [product_id, bufferImage];
+        });
         addMoreImage(values, (err, result) => {
             if (err) throw err;
-           
             res.status(201).json({
                 status: true,
                 message: 'You added successfully'
@@ -283,7 +283,7 @@ export const deleteProduct = (req: Request, res: Response, next: NextFunction) =
                 });
             } else {
                 getMultipleImage(id as string, (err, result) => {
-                    if(err) throw err;
+                    if (err) throw err;
                     if (result.length !== 0) {
                         const imageId = result.map(item => item.id);
                         deleteImageByProductId(imageId, (err, res) => {

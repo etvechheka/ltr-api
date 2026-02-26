@@ -14,7 +14,6 @@ export const addProduct = (data:ProductProps, callback: any) => {
 }
 
 export const addMoreImage = (data: any, callback: any) => {
-  
     const sql = "INSERT INTO tbl_product_images(product_id, product_image)VALUES ?";
     try {
         return db.query(sql, [data], callback);

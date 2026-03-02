@@ -13,7 +13,6 @@ export const orderItem = async (req: Request, res: Response, next: NextFunction)
             order_status: status,
             total_price: total_price
         }
-
         addOrder(orderItems, (err, result) => {
             if(err) throw err;
             res.status(201).json({
@@ -27,7 +26,6 @@ export const orderItem = async (req: Request, res: Response, next: NextFunction)
 }
 
 export const getOrderLists = async (req: Request, res: Response, next: NextFunction) => {
-
     try {
         getOrders((err: any, result: any) => {
             if(err) throw err;
@@ -44,7 +42,7 @@ export const getOrderLists = async (req: Request, res: Response, next: NextFunct
                 message: 'Data not found',
                 result: []
             })
-        })
+        });
     } catch (error) {
         next(error)
     }

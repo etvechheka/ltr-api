@@ -158,6 +158,7 @@ export const getFeatureProduct = (req: Request, res: Response, next: NextFunctio
     const { id } = req.query;
     try {
         getProductByFeature(id as string, (err, result) => {
+        
             if (err) throw err
             if (result.length == 0) {
                 return res.status(404).json({
@@ -165,6 +166,7 @@ export const getFeatureProduct = (req: Request, res: Response, next: NextFunctio
                     message: 'Data not found'
                 });
             }
+            
             res.status(200).json({
                 status: true,
                 message: 'Data fetch successfully',

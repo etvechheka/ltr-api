@@ -43,7 +43,7 @@ export const getCategories = (req: Request, res: Response, next: NextFunction) =
     try {
         getAllCategories((err, result) => {
             if (err) throw err;
-            if (result) {
+            if (result.length !== 0) {
                 return res.status(200).json({
                     status: true,
                     message: 'Data has been fetch successfully',
@@ -65,7 +65,7 @@ export const getCategory = (req: Request, res: Response, next: NextFunction) => 
     try {
         getCategoryById(id as string, (err, result) => {
             if (err) throw err;
-            if (result) {
+            if (result.length !== 0) {
                 return res.status(200).json({
                     status: true,
                     message: 'Data fetch successfully',

@@ -3,7 +3,6 @@ import { addOrder, getOrders } from "../models/order.model";
 
 export const orderItem = async (req: Request, res: Response, next: NextFunction) => {
     const {order_id, customer_uuid, list_items, status, total_price} = req.body;
-
     try {
         const orderItems = {
             order_id: order_id,
@@ -36,7 +35,6 @@ export const getOrderLists = async (req: Request, res: Response, next: NextFunct
                     result: result
                 })
             }
-
             res.status(200).json({
                 status: true,
                 message: 'Data not found',

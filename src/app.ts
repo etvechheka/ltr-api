@@ -11,6 +11,8 @@ import categoryRoute from './routes/category.route';
 import orderRoute from './routes/order.route';
 import clientRoute from './routes/client.route';
 import shipping_address from './routes/shippingAddress.route';
+import contact_us from './routes/support.route';
+
 
 const app:Application = express();
 
@@ -43,6 +45,7 @@ app.use('/api/v1/clients', clientRoute);
 app.use('/api/v1/products', productRoute);
 app.use('/api/v1/category', categoryRoute);
 app.use('/api/v1/orders', orderRoute);
+app.use('/api/v1/contact', contact_us);
 app.use('/api/v1/shipping_address', shipping_address);
 app.use((req, res, next) => {
   res.status(404).json({

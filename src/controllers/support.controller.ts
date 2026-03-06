@@ -1,22 +1,24 @@
 import { NextFunction, Request, Response } from "express";
-import { getAllUsers, getUserById, updateUserById } from "../models/user.model";
+import { createContact } from "../models/support.model";
 
-export const sendInquiry = (req: Request, res: Response, next: NextFunction) => {
+export const AddContact = (req: Request, res: Response, next: NextFunction) => {
+    const { first_name, last_name, phone, email, company, comment } = req.body;
+    const data = {
+        first_name,
+        last_name,
+        email,
+        phone,
+        company,
+        comment
+    }
 
     try {
-        getAllUsers((err, result) => {
+        createContact(data, (err, result) => {
             if (err) throw err;
-            if (result) { 
-                return res.status(200).json({
-                    status: true,
-                    message: 'Data has been fetch successfully',
-                    result: result
-                })
-            }
-            res.status(404).json({
-                status: false,
-                message: 'Data do not found'
-            })
+            res.status(201).json({
+                status: true,
+                message: 'Data has been added'
+            });
         });
     } catch (error) {
         next(error)

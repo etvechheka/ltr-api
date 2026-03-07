@@ -7,7 +7,9 @@ import {
 
 export const addNewProduct = (req: Request, res: Response, next: NextFunction) => {
     const { product_id, product_name, price, detail, image, category_id, product_code, amount_instock, feature } = req.body;
+
     try {
+        
         getProductByCode(product_code as string, (err, result) => {
             if (err) throw err;
             if (result.length !== 0) {
@@ -16,6 +18,7 @@ export const addNewProduct = (req: Request, res: Response, next: NextFunction) =
                     message: 'This product already exist'
                 })
             }
+
             // Convert base64 image to blob for mysql
             const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
             const bufferImage = Buffer.from(base64Data, 'base64');
@@ -208,7 +211,7 @@ export const getProduct = (req: Request, res: Response, next: NextFunction) => {
     try {
         getProductById(id as string, (err, result) => {
             if (err) throw err;
-            if (result) {
+            if (result.length !== 0) {
                 return res.status(200).json({
                     status: true,
                     message: 'Data fetch successfully',

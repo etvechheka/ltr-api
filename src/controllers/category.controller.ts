@@ -43,6 +43,7 @@ export const getCategories = (req: Request, res: Response, next: NextFunction) =
     try {
         getAllCategories((err, result) => {
             if (err) throw err;
+           
             if (result.length !== 0) {
                 return res.status(200).json({
                     status: true,
@@ -50,7 +51,7 @@ export const getCategories = (req: Request, res: Response, next: NextFunction) =
                     result: result
                 })
             }
-            res.status(404).json({
+            res.status(200).json({
                 status: false,
                 message: 'Data do not found'
             });

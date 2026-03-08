@@ -16,7 +16,7 @@ export const addCategory = (data:CategoryProps, callback) => {
 export const getAllCategories = (callback: any) => {
     const query = 'SELECT * FROM tbl_category';
     try {
-       return db.query(query, callback) as any;
+       return db.query(query, callback);
     } catch (error) {
         throw error;
     }

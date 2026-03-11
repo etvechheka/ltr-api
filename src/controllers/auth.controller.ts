@@ -13,35 +13,34 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
     }: User = req.body;
 
     try {
-        getUserByUsername(username as string, async (err, result) => {
-            if (err) throw err;
-            if (result.length !== 0) {
-                return res.status(400).json({
-                    status: false,
-                    message: 'User already exist'
-                })
-            } else {
-                const id = uuid.v4();
-                const passwordHash = await encryptPassword(password);
-                const data: any = {
-                    id: id,
-                    full_name: full_name,
-                    email: email,
-                    username: username,
-                    password_hash: passwordHash,
-                    role: role,
-                    date_of_birth: date_of_birth,
-                    created_at: new Date(),
-                    status: status
-                }
-                createUser(data);
-                res.status(201).json({
-                    status: true,
-                    message: 'Data has been inserted',
-                    result: data
-                });
+        const result: any = await getUserByUsername(username as string);
+        if (result.length !== 0) {
+            return res.status(400).json({
+                status: false,
+                message: 'User already exist'
+            })
+        } else {
+            const id = uuid.v4();
+            const passwordHash = await encryptPassword(password);
+            const data: any = {
+                id: id,
+                full_name: full_name,
+                email: email,
+                username: username,
+                password_hash: passwordHash,
+                role: role,
+                date_of_birth: date_of_birth,
+                created_at: new Date(),
+                status: status
             }
-        });
+            createUser(data);
+            res.status(201).json({
+                status: true,
+                message: 'Data has been inserted',
+                result: data
+            });
+        }
+
 
     } catch (error) {
         next(error);
@@ -51,30 +50,27 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { username, password }: LoginUser = req.body;
     try {
-        getUserByUsername(username, async (err, result) => {
-            if (err) throw err;
-            if (result) {
-                const user = result[0];
-                const paired = await comparedPassword(user.password_hash, password);
-                const accessToken = generateToken({id: user.id, username: user.username, role: user.role});
-                
-                if(paired) {
+        const result: any = await getUserByUsername(username)
+        if (result.length !== 0) {
+            const user = result[0];
+            const paired = await comparedPassword(user.password_hash, password);
+            const accessToken = generateToken({ id: user.id, username: user.username, role: user.role });
 
-                    return res.status(200).json({
-                        status: true,
-                        message: 'Login successfully',
-                        user: user,
-                        _token: accessToken
-                    })
-                }
-            }else{
-                res.status(405).json({
-                    status: false,
-                    message: 'User does not exist'
+            if (paired) {
+
+                return res.status(200).json({
+                    status: true,
+                    message: 'Login successfully',
+                    user: user,
+                    _token: accessToken
                 })
             }
-            
-        });
+        } else {
+            res.status(405).json({
+                status: false,
+                message: 'User does not exist'
+            })
+        }
 
     } catch (error) {
         next(error)

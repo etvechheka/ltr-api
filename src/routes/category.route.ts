@@ -4,7 +4,7 @@ import { addNewCategory, deleteCategory, getCategories, getCategory, updateCateg
 
 
 const router: Router = express.Router();
-router.post('/', authenticate, addNewCategory);
+router.post('/', addNewCategory);
 router.get('/', getCategories);
 router.get('/:id', getCategory);
 router.put('/:id', authenticate, updateCategory);

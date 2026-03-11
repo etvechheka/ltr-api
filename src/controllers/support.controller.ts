@@ -13,12 +13,10 @@ export const AddContact = (req: Request, res: Response, next: NextFunction) => {
     }
 
     try {
-        createContact(data, (err, result) => {
-            if (err) throw err;
-            res.status(201).json({
-                status: true,
-                message: 'Data has been added'
-            });
+        createContact(data);
+        res.status(201).json({
+            status: true,
+            message: 'Data has been added'
         });
     } catch (error) {
         next(error)

@@ -2,62 +2,65 @@
 import db from '../config/connect.config';
 import { CategoryProps } from '../schema/category.schema';
 
-export const addCategory = (data:CategoryProps, callback) => {
+export const addCategory = (data:CategoryProps) => {
     
     const sql = 'INSERT INTO tbl_category(title, description, image, created_at)VALUES(?, ?, ?, ?)';
     const objectToArray = Object.values(data);
     try {
-        return db.query(sql, objectToArray, callback);
+        return db.query(sql, objectToArray);
     } catch (error) {
         throw error
     }
 }
 
-export const getAllCategories = (callback: any) => {
+export const getAllCategories = async () => {
     const query = 'SELECT * FROM tbl_category';
     try {
-       return db.query(query, callback);
+       const [rows] = await db.query(query);
+       return rows;
     } catch (error) {
         throw error;
     }
 }
 
-export const getCategoryByTitle = (title: string, callback: any) => {
-    const query = 'SELECT * FROM tbl_category WHERE title = ?';
+export const getCategoryByTitle = async (title: string) => {
+    const query = 'SELECT * FROM tbl_category WHERE title= ?';
     try {
-        return db.query(query, [title], callback);
+        const [rows] = await db.query(query, [title]);
+        return rows;
     } catch (error) {
         throw error;
     }
 }
 
-export const getCategoryById = (categoryId: string, callback: any) => {
+export const getCategoryById = async (categoryId: string) => {
     const query = 'SELECT * FROM tbl_category WHERE id = ?';
     try {
-        return db.query(query, [categoryId], callback);
+        const [rows] =  await db.query(query, [categoryId]);
+        return rows;
     } catch (error) {
         throw error;
     }
 }
 
 
-export const updateCategoryById = (categoryId: string, data: any, callback: any) => {
+export const updateCategoryById = (categoryId: string, data: any) => {
     const convertToArray = Object.values(data);
     const newData = [...convertToArray, categoryId]
     try {
         const query = 'UPDATE tbl_category SET title=?, description=?, image=? WHERE id=?';
-        return db.query(query, newData, callback);
+        db.query(query, newData);
     } catch (error) {
         throw error
     }
 }
 
-export const deleteCategoryById = (categoryId: string, callback: any) => {
+export const deleteCategoryById = (categoryId: string) => {
 
     try {
         const sql = 'DELETE FROM tbl_category WHERE id = ?';
-        return db.query(sql, [categoryId], callback);
+        db.query(sql, [categoryId]);
     } catch (error) {
-        
+        throw error
     }
 }

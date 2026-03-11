@@ -17,13 +17,12 @@ export const addShippingAddress = async (req: Request, res: Response, next: Next
             postal_code: postal_code
         }
 
-        addNewAddress(data, (err, result) => {
-            if (err) throw err;
-            res.status(201).json({
-                status: true,
-                message: "Shipping address has been added",
-            })
+        addNewAddress(data);
+        res.status(201).json({
+            status: true,
+            message: "Shipping address has been added",
         });
+
     } catch (error) {
         next(error);
     }
@@ -55,19 +54,11 @@ export const updateAddress = async (req: Request, res: Response, next: NextFunct
     const { isSelect } = req.body;
 
     try {
-        updateAddressLine({ id: address_id, isSelect }, (err: any, result: any) => {
-            if (err) throw err;
-            if (result.length == 0) {
-                return res.status(204).json({
-                    status: true,
-                    message: 'Data not found',
-                });
-            }
-            res.status(200).json({
-                status: true,
-                message: "Address has been updated"
-            })
-        });
+        updateAddressLine({ id: address_id, isSelect });
+        res.status(200).json({
+            status: true,
+            message: "Address has been updated"
+        })
     } catch (error) {
         next(error)
     }

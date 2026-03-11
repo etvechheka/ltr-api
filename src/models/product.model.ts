@@ -45,7 +45,7 @@ export const getMultipleImage = async (productID: string) => {
 export const deleteMultipleImage = (id: string) => {
     const sql = 'DELETE FROM tbl_product_images WHERE id=?';
     try {
-        return db.query(sql, [id]);
+        db.query(sql, [id]);
     } catch (error) {
         throw error
     }
@@ -53,15 +53,16 @@ export const deleteMultipleImage = (id: string) => {
 export const deleteImageByProductId = (arrId: string) => {
     const sql = "DELETE FROM tbl_product_images WHERE id IN (?)";
     try {
-        return db.query(sql, [arrId]);
+        db.query(sql, [arrId]);
     } catch (error) {
         
     }
 }
-export const getProductByFeature = (feature: string) => {
+export const getProductByFeature = async (feature: string) => {
     const sql = 'SELECT * FROM tbl_product WHERE feature=?';
     try {
-        return db.query(sql, [feature]);
+        const [rows] = await db.query(sql, [feature]);
+        return rows;
     } catch (error) {
         throw error;
     }
